@@ -38,6 +38,7 @@ search-form__button {
 
   .photo__link {
     display: block;
+    object-fit: cover;
     width: 350px;
     height: 250px;
   }
@@ -50,6 +51,7 @@ search-form__button {
     width: 350px;
     font-size: 14px;
     margin-bottom: 20px;
+    background-color: lightblue;
     border-bottom: 1px solid #c3c2c2;
     border-left: 1px solid #c3c2c2;
     border-right: 1px solid #c3c2c2;
@@ -85,4 +87,44 @@ search-form__button {
     border: none;
     border-radius: 2px;
     cursor: pointer;
+  }
+
+  .info-icon {
+    display: block;
+    width: 15px;
+    height: 15px;
+  }
+
+  .likes {
+    background: url("/src/images/heart.svg");
+    background-size: cover;
+  }
+
+  .views {
+    background: url("/src/images/eye.svg");
+    background-size: cover;
+  }
+
+  .comments {
+    background: url("/src/images/bubbles.svg");
+    background-size: cover;
+  }
+
+  .downloads {
+    background: url("/src/images/download.svg");
+    background-size: cover;
+  }
+
+
+  .is-hidden {
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    border: 0;
+    padding: 0;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    margin: -1px;
   }

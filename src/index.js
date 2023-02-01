@@ -2,11 +2,9 @@ import { fetchImages } from '../src/js/fetchImages';
 import Notiflix from 'notiflix';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
-//import cardTemplate from './templates/imageTemplate.hbs';
 
 // get all elements (tags) from html page
 const gallery = document.querySelector('.gallery');
-// const totalHits = document.querySelector('.total-hits');
 const more = document.querySelector('.more');
 const loading = document.querySelector('.loading');
 const end = document.querySelector('.end-is-nigh');
@@ -22,30 +20,38 @@ let totalHits = 0;
 form.addEventListener('submit', onSearchSubmit);
 window.addEventListener('scroll', onScrollLoad);
 
-// render markup
+// render markup with images we fetched using template string
 function renderImageMarkup({ hits: images }) {
-  //const markup = arr.map(item => cardTemplate(item)).join('');
-  // function renderImageMarkup({ hits: images }) {
   const markup = images
     .map(image => {
       return `
-      <div class="photo-card">
-      <a href="${image.largeImageURL}"><img class="photo__link" src="${image.webformatURL}" alt="${image.tags}" title="${image.tags}" loading="lazy"/></a>
-      <div class="info">
-      <p class="info-item">
-  <b>Likes</b> <span class="info-item__api"> ${image.likes} </span>
-  </p>
-      <p class="info-item">
-          <b>Views</b> <span class="info-item__api">${image.views}</span>
-      </p>
-      <p class="info-item">
-          <b>Comments</b> <span class="info-item__api">${image.comments}</span>
-      </p>
-      <p class="info-item">
-          <b>Downloads</b> <span class="info-item__api">${image.downloads}</span>
-      </p>
+  <div class='photo-card'>
+  <a href='${image.largeImageURL}'>
+    <img src='${image.webformatURL}' alt='${image.tags}' class="photo__link" loading='lazy' />
+  </a>
+  <div class='info'>
+    <p class='info-item'>
+      <span class = 'info-icon likes'></span>
+      <b>Likes</b>
+      ${image.likes}
+    </p>
+    <p class='info-item'>
+    <span class = 'info-icon views'></span>
+      <b>Views</b>
+      ${image.views}
+    </p>
+    <p class='info-item'>
+    <span class = 'info-icon comments'></span>
+      <b>Comments</b>
+      ${image.comments}
+    </p>
+    <p class='info-item'>
+    <span class = 'info-icon downloads'></span>
+      <b>Downloads</b>
+      ${image.downloads}
+    </p>
   </div>
-  </div>`;
+</div>`;
     })
     .join('');
 
@@ -61,7 +67,7 @@ function createLightbox() {
   });
 }
 
-// submit event handler
+// submit event handler. We wait for data fetching and render markup
 async function onSearchSubmit(e) {
   try {
     e.preventDefault();
@@ -87,7 +93,7 @@ async function onSearchSubmit(e) {
   }
 }
 
-// scroll handler
+// scroll handler. We download more images whem we scroll down to the end of the page
 async function onScrollLoad() {
   try {
     if (
