@@ -2,7 +2,7 @@ import { fetchImages } from '../src/js/fetchImages';
 import Notiflix from 'notiflix';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
-import { debounce } from 'debounce';
+//import cardTemplate from './templates/imageTemplate.hbs';
 
 // get all elements (tags) from html page
 const gallery = document.querySelector('.gallery');
@@ -24,26 +24,28 @@ window.addEventListener('scroll', onScrollLoad);
 
 // render markup
 function renderImageMarkup({ hits: images }) {
+  //const markup = arr.map(item => cardTemplate(item)).join('');
+  // function renderImageMarkup({ hits: images }) {
   const markup = images
     .map(image => {
       return `
-    <div class="photo-card">
-    <a href="${image.largeImageURL}"><img class="photo__link" src="${image.webformatURL}" alt="${image.tags}" title="${image.tags}" loading="lazy"/></a>
-    <div class="info">
-    <p class="info-item">
-<b>Likes</b> <span class="info-item__api"> ${image.likes} </span>
-</p>
-    <p class="info-item">
-        <b>Views</b> <span class="info-item__api">${image.views}</span>  
-    </p>
-    <p class="info-item">
-        <b>Comments</b> <span class="info-item__api">${image.comments}</span>  
-    </p>
-    <p class="info-item">
-        <b>Downloads</b> <span class="info-item__api">${image.downloads}</span> 
-    </p>
-</div>
-</div>`;
+      <div class="photo-card">
+      <a href="${image.largeImageURL}"><img class="photo__link" src="${image.webformatURL}" alt="${image.tags}" title="${image.tags}" loading="lazy"/></a>
+      <div class="info">
+      <p class="info-item">
+  <b>Likes</b> <span class="info-item__api"> ${image.likes} </span>
+  </p>
+      <p class="info-item">
+          <b>Views</b> <span class="info-item__api">${image.views}</span>
+      </p>
+      <p class="info-item">
+          <b>Comments</b> <span class="info-item__api">${image.comments}</span>
+      </p>
+      <p class="info-item">
+          <b>Downloads</b> <span class="info-item__api">${image.downloads}</span>
+      </p>
+  </div>
+  </div>`;
     })
     .join('');
 
