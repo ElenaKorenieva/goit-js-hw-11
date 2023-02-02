@@ -81,7 +81,6 @@ async function onSearchSubmit(e) {
     }
     const fetchedData = await fetchImages(currentQuery, currentPage);
     totalHits = fetchedData.totalHits;
-    console.log(totalHits === 0);
 
     if (totalHits === 0) {
       Notiflix.Notify.failure(
