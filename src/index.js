@@ -26,29 +26,29 @@ function renderImageMarkup({ hits: images }) {
     .map(image => {
       return `
   <div class='photo-card'>
-  <a href='${image.largeImageURL}'>
-    <img src='${image.webformatURL}' alt='${image.tags}' class="photo__link" loading='lazy' />
+  <a href='${image?.largeImageURL}'>
+    <img src='${image?.webformatURL}' alt='${image?.tags}' class="photo__link" loading='lazy' />
   </a>
   <div class='info'>
     <p class='info-item'>
       <span class = 'info-icon likes'></span>
       <b>Likes</b>
-      ${image.likes}
+      ${image?.likes}
     </p>
     <p class='info-item'>
     <span class = 'info-icon views'></span>
       <b>Views</b>
-      ${image.views}
+      ${image?.views}
     </p>
     <p class='info-item'>
     <span class = 'info-icon comments'></span>
       <b>Comments</b>
-      ${image.comments}
+      ${image?.comments}
     </p>
     <p class='info-item'>
     <span class = 'info-icon downloads'></span>
       <b>Downloads</b>
-      ${image.downloads}
+      ${image?.downloads}
     </p>
   </div>
 </div>`;
@@ -58,14 +58,12 @@ function renderImageMarkup({ hits: images }) {
   gallery.insertAdjacentHTML('beforeend', markup);
 }
 
-// function for creation and showing lightbox
-function createLightbox() {
-  let lightbox = new SimpleLightbox('.photo-card a', {
-    captions: true,
-    captionsData: 'alt',
-    captionDelay: 250,
-  });
-}
+//create and show lightbox
+let lightbox = new SimpleLightbox('.photo-card a', {
+  captions: true,
+  captionsData: 'alt',
+  captionDelay: 250,
+});
 
 // submit event handler. We wait for data fetching and render markup
 async function onSearchSubmit(e) {
@@ -90,7 +88,7 @@ async function onSearchSubmit(e) {
       Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
     }
     renderImageMarkup(fetchedData);
-    createLightbox();
+    lightbox.refresh();
   } catch (error) {
     console.log(error.message);
   }
@@ -99,9 +97,14 @@ async function onSearchSubmit(e) {
 // scroll handler. We download more images whem we scroll down to the end of the page
 async function onScrollLoad() {
   try {
+    const documentHeight = document.body.scrollHeight;
+    const currentScroll = window.scrollY + window.innerHeight;
+    const offset = 200;
     if (
-      window.scrollY + window.innerHeight >=
-      document.documentElement.scrollHeight
+      // window.scrollY + window.innerHeight >=
+      // document.documentElement.scrollHeight
+      currentScroll + offset >
+      documentHeight
     ) {
       if (loaded >= totalHits) {
         Notiflix.Notify.info(
@@ -113,7 +116,7 @@ async function onScrollLoad() {
       loaded += 40;
       const fetchedData = await fetchImages(currentQuery, currentPage);
       renderImageMarkup(fetchedData);
-      createLightbox();
+      lightbox.refresh();
       smoothScroll();
     }
   } catch (error) {
@@ -124,7 +127,7 @@ async function onScrollLoad() {
 // Smooth scroll
 function smoothScroll() {
   const { height: cardHeight } =
-    galleryRef.firstElementChild.getBoundingClientRect();
+    gallery.firstElementChild.getBoundingClientRect();
   window.scrollBy({
     top: cardHeight * 2,
     behavior: 'smooth',
