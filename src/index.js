@@ -20,7 +20,7 @@ let totalHits = 0;
 form.addEventListener('submit', onSearchSubmit);
 window.addEventListener('scroll', onScrollLoad);
 
-// render markup with images we fetched using template string
+// render markup with images we fetched using template row
 function renderImageMarkup({ hits: images }) {
   const markup = images
     .map(image => {
@@ -75,6 +75,10 @@ async function onSearchSubmit(e) {
     currentPage = 1;
     currentQuery = e.currentTarget.searchQuery.value.trim();
 
+    if (currentQuery === '') {
+      Notiflix.Notify.info('Please enter your request.');
+      return;
+    }
     const fetchedData = await fetchImages(currentQuery, currentPage);
     totalHits = fetchedData.totalHits;
     console.log(totalHits === 0);
