@@ -9,6 +9,7 @@ const more = document.querySelector('.more');
 const loading = document.querySelector('.loading');
 const end = document.querySelector('.end-is-nigh');
 const form = document.querySelector('.search-form');
+const backToUpBtn = document.querySelector('.isShown');
 
 //  status variables
 let currentQuery = '';
@@ -19,6 +20,7 @@ let totalHits = 0;
 // Event listeners
 form.addEventListener('submit', onSearchSubmit);
 window.addEventListener('scroll', onScrollLoad);
+backToUpBtn.addEventListener('click', onScrollUp);
 
 // render markup with images we fetched using template row
 function renderImageMarkup({ hits: images }) {
@@ -31,22 +33,30 @@ function renderImageMarkup({ hits: images }) {
   </a>
   <div class='info'>
     <p class='info-item'>
-      <span class = 'info-icon likes'></span>
+      <span class = 'info-icon'>
+        <i class="fa-solid fa-heart"></i>
+      </span>
       <b>Likes</b>
       ${image?.likes}
     </p>
     <p class='info-item'>
-    <span class = 'info-icon views'></span>
+    <span class = 'info-icon'>
+      <i class="fa-solid fa-eye"></i>
+    </span>
       <b>Views</b>
       ${image?.views}
     </p>
     <p class='info-item'>
-    <span class = 'info-icon comments'></span>
+    <span class = 'info-icon'>
+      <i class="fa-sharp fa-solid fa-comment"></i>
+    </span>
       <b>Comments</b>
       ${image?.comments}
     </p>
     <p class='info-item'>
-    <span class = 'info-icon downloads'></span>
+    <span class = 'info-icon'>
+      <i class="fa-solid fa-cloud-arrow-down"></i>
+    </span>
       <b>Downloads</b>
       ${image?.downloads}
     </p>
@@ -102,6 +112,8 @@ async function onScrollLoad() {
     const documentHeight = document.body.scrollHeight;
     const currentScroll = window.scrollY + window.innerHeight;
     const offset = 200;
+    onScrollBackToUpBtnShow();
+
     if (currentScroll + offset > documentHeight) {
       if (loaded >= totalHits) {
         loaded = 0;
@@ -134,4 +146,18 @@ function smoothScroll() {
     top: cardHeight * 2,
     behavior: 'smooth',
   });
+}
+
+// add or remove class from BackToUp button in case to show in on the page
+function onScrollBackToUpBtnShow() {
+  if (window.scrollY > 500) {
+    backToUpBtn.classList.remove('isShown_hide');
+  } else {
+    backToUpBtn.classList.add('isShown_hide');
+  }
+}
+
+// handle click on BackToUp button and go up to the page
+function onScrollUp() {
+  window.scrollTo(0, 0);
 }

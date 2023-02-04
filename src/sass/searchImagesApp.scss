@@ -1,23 +1,35 @@
+html {
+  scroll-behavior: smooth;
+  box-sizing: border-box;
+}
+
+h1, h2, h3, h4, p {   margin-top: 0;   margin-bottom: 0; }  
+ul, ol {   margin-top: 0;   margin-bottom: 0;   padding-left: 0; } 
+
+
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: inherit;
+}
+
+a:hover,
+a:focus {
+    cursor: pointer;
+}
+
+button:hover,
+button:focus {
+    cursor: pointer;
+}
+
 .search-form {
   display: flex;
   justify-content: center;
   padding: 10px;
 }
 
-search-form__button {
-    display: inline-block;
-    width: 50px;
-    padding: 10px;
-    background: #c3c2c2;
-    color: #000;
-    font-size: 15px;
-    border: none;
-    border-top-right-radius: 2px;
-    border-bottom-right-radius: 2px;
-    border-left: none;
-    cursor: pointer;
-  }
-  
   .search-form__button:hover {
     background: #c3c2c2ce;
   }
@@ -26,7 +38,7 @@ search-form__button {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    margin: 20px 25px;
+    margin: 1em 2em;
   }
   
   .photo-card {
@@ -50,7 +62,8 @@ search-form__button {
     justify-items: center;
     width: 350px;
     font-size: 14px;
-    margin-bottom: 20px;
+    margin-bottom:20px;
+    padding: 10px 0;
     background-color: lightblue;
     border-bottom: 1px solid #c3c2c2;
     border-left: 1px solid #c3c2c2;
@@ -66,7 +79,6 @@ search-form__button {
     flex-direction: column;
     flex-wrap: wrap;
     align-items: center;
-    // justify-content: center;
     padding: 0 12px;
   }
   
@@ -80,7 +92,6 @@ search-form__button {
     padding: 10px 20px;
     text-align: center;
     text-transform: uppercase;
-    // font-weight: bold;
     font-size: large;
     color: #fff;
     background-color: #4056b4;
@@ -95,27 +106,6 @@ search-form__button {
     height: 15px;
   }
 
-  .likes {
-    background: url("/src/images/heart.svg");
-    background-size: cover;
-  }
-
-  .views {
-    background: url("/src/images/eye.svg");
-    background-size: cover;
-  }
-
-  .comments {
-    background: url("/src/images/bubbles.svg");
-    background-size: cover;
-  }
-
-  .downloads {
-    background: url("/src/images/download.svg");
-    background-size: cover;
-  }
-
-
   .is-hidden {
     position: absolute;
     white-space: nowrap;
@@ -127,4 +117,22 @@ search-form__button {
     clip: rect(0 0 0 0);
     clip-path: inset(50%);
     margin: -1px;
+  }
+
+  #up {
+    position: fixed;
+    bottom: 150px;
+    right: 70px;
+    font-size: 40px;
+    z-index: 9999;
+    color: lightblue;
+  }
+
+  .isShown {
+    opacity: 1;
+    transition: 0.3 ease;
+
+    &_hide {
+      opacity: 0;
+    }
   }
