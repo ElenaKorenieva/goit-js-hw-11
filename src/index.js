@@ -71,6 +71,7 @@ async function onSearchSubmit(e) {
     e.preventDefault();
     gallery.innerHTML = '';
     currentPage = 1;
+    loaded = 0;
     currentQuery = e.currentTarget.searchQuery.value.trim();
 
     if (currentQuery === '') {
@@ -84,6 +85,7 @@ async function onSearchSubmit(e) {
       Notiflix.Notify.failure(
         'Sorry, there are no images matching your search query. Please try again.'
       );
+      return;
     } else {
       Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
     }
@@ -100,20 +102,20 @@ async function onScrollLoad() {
     const documentHeight = document.body.scrollHeight;
     const currentScroll = window.scrollY + window.innerHeight;
     const offset = 200;
-    if (
-      // window.scrollY + window.innerHeight >=
-      // document.documentElement.scrollHeight
-      currentScroll + offset >
-      documentHeight
-    ) {
+    if (currentScroll + offset > documentHeight) {
       if (loaded >= totalHits) {
+        loaded = 0;
+        window.removeEventListener('scroll', onScrollLoad);
         Notiflix.Notify.info(
           "We're sorry, but you've reached the end of search results."
         );
-        window.removeEventListener('scroll', onScrollLoad);
+        console.log(loaded);
+        return;
       }
       currentPage += 1;
       loaded += 40;
+      console.log(currentPage);
+      console.log(loaded);
       const fetchedData = await fetchImages(currentQuery, currentPage);
       renderImageMarkup(fetchedData);
       lightbox.refresh();
