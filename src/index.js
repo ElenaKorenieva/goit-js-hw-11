@@ -16,6 +16,7 @@ let currentQuery = '';
 let currentPage = 1;
 let loaded = 40;
 let totalHits = 0;
+let scrollListenerRemoved = false;
 
 // Event listeners
 form.addEventListener('submit', onSearchSubmit);
@@ -84,6 +85,10 @@ async function onSearchSubmit(e) {
     loaded = 0;
     currentQuery = e.currentTarget.searchQuery.value.trim();
 
+    if (scrollListenerRemoved) {
+      window.addEventListener('scroll', onScrollLoad);
+      scrollListenerRemoved = false;
+    }
     if (currentQuery === '') {
       Notiflix.Notify.info('Please enter your request.');
       return;
@@ -118,6 +123,7 @@ async function onScrollLoad() {
       if (loaded >= totalHits) {
         loaded = 0;
         window.removeEventListener('scroll', onScrollLoad);
+        scrollListenerRemoved = true;
         Notiflix.Notify.info(
           "We're sorry, but you've reached the end of search results."
         );
