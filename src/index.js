@@ -106,6 +106,7 @@ async function onSearchSubmit(e) {
     }
     renderImageMarkup(fetchedData);
     lightbox.refresh();
+    form.reset();
   } catch (error) {
     console.log(error.message);
   }
